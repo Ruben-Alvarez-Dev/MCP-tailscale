@@ -1,17 +1,15 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * Routes Tools - MCP Tools for Tailscale Routes and Exit Nodes
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/tools/routes
+ * @author Ruben-Alvarez-Dev
  */
 
 import { Tool, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { TailscaleClient } from '../client.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Definitions
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const routeTools: Tool[] = [
   {
     name: 'tailscale_list_routes',
@@ -66,10 +64,7 @@ export const routeTools: Tool[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Input Schemas for Validation
-// ─────────────────────────────────────────────────────────────────────────────
-
 const ListRoutesSchema = z.object({
   deviceId: z.string().min(1),
 });
@@ -84,10 +79,7 @@ const SetExitNodeSchema = z.object({
   enabled: z.boolean(),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Handler
-// ─────────────────────────────────────────────────────────────────────────────
-
 export async function handleRouteTool(
   name: string,
   args: unknown,

@@ -1,15 +1,14 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * Tailscale API Client
  * HTTP client for Tailscale API v2
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/client
+ * @author Ruben-Alvarez-Dev
  */
 
 import axios, { AxiosInstance, AxiosError } from 'axios';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Types
-// ─────────────────────────────────────────────────────────────────────────────
 
 export interface TailscaleClientConfig {
   apiKey: string;
@@ -102,6 +101,7 @@ export interface AclPolicy {
   [key: string]: unknown;
 }
 
+// User Interface
 export interface User {
   id: string;
   loginName: string;
@@ -113,6 +113,7 @@ export interface User {
   type: string;
 }
 
+// Tailnet Info Interface
 export interface TailnetInfo {
   name: string;
   domain: string;
@@ -121,10 +122,7 @@ export interface TailnetInfo {
   adminKey?: string;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // API Error Class
-// ─────────────────────────────────────────────────────────────────────────────
-
 export class TailscaleApiError extends Error {
   constructor(
     message: string,
@@ -136,10 +134,7 @@ export class TailscaleApiError extends Error {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tailscale Client
-// ─────────────────────────────────────────────────────────────────────────────
-
 export class TailscaleClient {
   private client: AxiosInstance;
   private _tailnet: string;
@@ -172,10 +167,7 @@ export class TailscaleClient {
     );
   }
 
-  // ═════════════════════════════════════════════════════════════════════════
   // DEVICES API
-  // ═════════════════════════════════════════════════════════════════════════
-
   devices = {
     list: async (): Promise<Device[]> => {
       const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/devices`);
@@ -206,10 +198,7 @@ export class TailscaleClient {
     },
   };
 
-  // ═════════════════════════════════════════════════════════════════════════
   // API KEYS API
-  // ═════════════════════════════════════════════════════════════════════════
-
   keys = {
     list: async (): Promise<ApiKey[]> => {
       const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/keys`);
@@ -229,10 +218,7 @@ export class TailscaleClient {
     },
   };
 
-  // ═════════════════════════════════════════════════════════════════════════
   // DNS API
-  // ═════════════════════════════════════════════════════════════════════════
-
   dns = {
     getNameservers: async (): Promise<DnsNameservers> => {
       const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/dns/nameservers`);
@@ -274,10 +260,7 @@ export class TailscaleClient {
     },
   };
 
-  // ═════════════════════════════════════════════════════════════════════════
   // ACL API
-  // ═════════════════════════════════════════════════════════════════════════
-
   acl = {
     get: async (): Promise<AclPolicy> => {
       const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/acl`);
@@ -301,10 +284,7 @@ export class TailscaleClient {
     },
   };
 
-  // ═════════════════════════════════════════════════════════════════════════
   // ROUTES API
-  // ═════════════════════════════════════════════════════════════════════════
-
   routes = {
     list: async (deviceId: string): Promise<{ routes: string[] }> => {
       const response = await this.client.get(`/api/v2/device/${deviceId}/routes`);
@@ -326,10 +306,7 @@ export class TailscaleClient {
     },
   };
 
-  // ═════════════════════════════════════════════════════════════════════════
   // USERS & TAILNET API
-  // ═════════════════════════════════════════════════════════════════════════
-
   users = {
     list: async (): Promise<User[]> => {
       const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/members`);

@@ -1,5 +1,5 @@
 {
-  "name": "@jartos/mcp-tailscale",
+  "name": "mcp-tailscale",
   "version": "1.0.0",
   "description": "Model Context Protocol (MCP) server for Tailscale API - Complete network management",
   "main": "dist/index.js",
@@ -13,10 +13,6 @@
     "start": "node dist/index.js",
     "dev": "ts-node-esm src/index.ts",
     "watch": "tsc --watch",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run build"
   },
@@ -31,16 +27,16 @@
     "claude",
     "llm"
   ],
-  "author": "JartOS Team",
+  "author": "Ruben-Alvarez-Dev",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jartos/mcp-tailscale"
+    "url": "https://github.com/Ruben-Alvarez-Dev/MCP-tailscale"
   },
   "bugs": {
-    "url": "https://github.com/jartos/mcp-tailscale/issues"
+    "url": "https://github.com/Ruben-Alvarez-Dev/MCP-tailscale/issues"
   },
-  "homepage": "https://github.com/jartos/mcp-tailscale#readme",
+  "homepage": "https://github.com/Ruben-Alvarez-Dev/MCP-tailscale#readme",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -52,12 +48,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
-    "@types/jest": "^29.5.11",
-    "@typescript-eslint/eslint-plugin": "^6.13.0",
-    "@typescript-eslint/parser": "^6.13.0",
-    "eslint": "^8.54.0",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.2"
   },

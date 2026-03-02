@@ -1,17 +1,15 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * DNS Tools - MCP Tools for Tailscale DNS Configuration
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/tools/dns
+ * @author Ruben-Alvarez-Dev
  */
 
 import { Tool, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { TailscaleClient } from '../client.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Definitions
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const dnsTools: Tool[] = [
   {
     name: 'tailscale_get_dns_nameservers',
@@ -86,10 +84,7 @@ export const dnsTools: Tool[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Input Schemas for Validation
-// ─────────────────────────────────────────────────────────────────────────────
-
 const SetNameserversSchema = z.object({
   nameservers: z.array(z.string().regex(/^(\d{1,3}\.){3}\d{1,3}$|^[0-9a-fA-F:]+$/, 'Must be a valid IPv4 or IPv6 address')).min(1),
 });
@@ -102,10 +97,7 @@ const SetSearchPathsSchema = z.object({
   searchPaths: z.array(z.string()),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Handler
-// ─────────────────────────────────────────────────────────────────────────────
-
 export async function handleDnsTool(
   name: string,
   args: unknown,
@@ -197,7 +189,7 @@ export async function handleDnsTool(
             type: 'text',
             text: JSON.stringify({
               success: true,
-              message: `Search paths updated`,
+              message: 'Search paths updated',
               ...result,
             }, null, 2),
           },

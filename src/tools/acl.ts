@@ -1,17 +1,15 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * ACL Tools - MCP Tools for Tailscale Access Control Policies
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/tools/acl
+ * @author Ruben-Alvarez-Dev
  */
 
 import { Tool, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { TailscaleClient, AclPolicy } from '../client.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Definitions
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const aclTools: Tool[] = [
   {
     name: 'tailscale_get_acl',
@@ -52,10 +50,7 @@ export const aclTools: Tool[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Input Schemas for Validation
-// ─────────────────────────────────────────────────────────────────────────────
-
 const SetAclSchema = z.object({
   policy: z.record(z.unknown()),
 });
@@ -64,10 +59,7 @@ const ValidateAclSchema = z.object({
   policy: z.record(z.unknown()),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Handler
-// ─────────────────────────────────────────────────────────────────────────────
-
 export async function handleAclTool(
   name: string,
   args: unknown,

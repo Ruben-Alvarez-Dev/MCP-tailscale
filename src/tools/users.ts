@@ -1,17 +1,15 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * User Tools - MCP Tools for Tailscale Users and Tailnet Management
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/tools/users
+ * @author Ruben-Alvarez-Dev
  */
 
 import { Tool, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { TailscaleClient } from '../client.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Definitions
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const userTools: Tool[] = [
   {
     name: 'tailscale_list_users',
@@ -70,10 +68,7 @@ export const userTools: Tool[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Input Schemas for Validation
-// ─────────────────────────────────────────────────────────────────────────────
-
 const GetUserSchema = z.object({
   userId: z.string().min(1),
 });
@@ -82,10 +77,7 @@ const DeleteUserSchema = z.object({
   userId: z.string().min(1),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Handler
-// ─────────────────────────────────────────────────────────────────────────────
-
 export async function handleUserTool(
   name: string,
   args: unknown,

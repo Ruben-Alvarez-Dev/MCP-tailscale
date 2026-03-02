@@ -1,17 +1,15 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * Device Tools - MCP Tools for Tailscale Device Management
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/tools/devices
+ * @author Ruben-Alvarez-Dev
  */
 
 import { Tool, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { TailscaleClient } from '../client.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Definitions
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const deviceTools: Tool[] = [
   {
     name: 'tailscale_list_devices',
@@ -90,10 +88,7 @@ export const deviceTools: Tool[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Input Schemas for Validation
-// ─────────────────────────────────────────────────────────────────────────────
-
 const GetDeviceSchema = z.object({
   deviceId: z.string().min(1),
 });
@@ -112,10 +107,7 @@ const SetDeviceTagsSchema = z.object({
   tags: z.array(z.string()),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Handler
-// ─────────────────────────────────────────────────────────────────────────────
-
 export async function handleDeviceTool(
   name: string,
   args: unknown,

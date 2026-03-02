@@ -1,159 +1,80 @@
-# 🦎 Tailscale MCP Server
+# MCP Tailscale
 
-> Model Context Protocol (MCP) server para Tailscale API - Gestión completa de red
+> Model Context Protocol (MCP) server for Tailscale API - Complete network management
 
-[![npm version](https://badge.fury.io/js/@jartos%2Fmcp-tailscale.svg)](https://badge.fury.io/js/@jartos/mcp-tailscale)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 
-## 📋 Tabla de Contenidos
+## Features
 
-- [Características](#-características)
-- [Requisitos](#-requisitos)
-- [Instalación](#-instalación)
-- [Configuración](#-configuración)
-- [Herramientas Disponibles](#-herramientas-disponibles)
-- [Uso con Claude Desktop](#-uso-con-claude-desktop)
-- [Uso con Goose](#-uso-con-goose)
-- [Uso Programático](#-uso-programático)
-- [Desarrollo](#-desarrollo)
-- [API Reference](#-api-reference)
-- [Licencia](#-licencia)
+- **25 MCP Tools** for complete Tailscale management
+- **Device Management** - List, authorize, delete, tag devices
+- **API Keys** - Create and manage access keys
+- **DNS Configuration** - Nameservers, MagicDNS, search paths
+- **ACL Policies** - Get, set, validate access control
+- **Routes & Exit Nodes** - Subnet routing configuration
+- **Users & Tailnet** - Member and network management
+- **100% TypeScript** - Full type safety with Zod validation
+- **Stdio Transport** - Compatible with Claude Desktop, Goose, etc.
 
-## ✨ Características
+## Requirements
 
-- ✅ **Gestión completa de dispositivos** - Listar, autorizar, eliminar dispositivos
-- ✅ **Control de ACLs** - Ver y actualizar políticas de acceso
-- ✅ **Gestión de DNS** - Configurar Nameservers y Search Paths
-- ✅ **API Keys** - Crear y gestionar claves de acceso
-- ✅ **Routes & Subnet Routers** - Gestionar rutas de red
-- ✅ **Users & Tailnet** - Información de usuarios y red
-- ✅ **Exit Nodes** - Configurar nodos de salida
-- ✅ **100% TypeScript** - Tipado completo con Zod validation
-- ✅ **Stdio Transport** - Compatible con Claude Desktop, Goose, y otros clientes MCP
+- Node.js >= 18.0.0
+- Tailscale account with API access
+- API Key from [Tailscale Admin](https://login.tailscale.com/admin/settings/keys)
 
-## 📦 Requisitos
+## Installation
 
-- **Node.js** >= 18.0.0
-- **npm** >= 9.0.0
-- **Cuenta de Tailscale** con acceso a la API
-- **API Key** de Tailscale ([obtener aquí](https://login.tailscale.com/admin/settings/keys))
-
-## 🚀 Instalación
-
-### Opción 1: NPM (Recomendado)
+### NPX (Recommended)
 
 ```bash
-npm install -g @jartos/mcp-tailscale
+npx mcp-tailscale
 ```
 
-### Opción 2: Desde el código fuente
+### Global Install
 
 ```bash
-git clone https://github.com/jartos/mcp-tailscale.git
-cd mcp-tailscale
+npm install -g mcp-tailscale
+mcp-tailscale
+```
+
+### From Source
+
+```bash
+git clone https://github.com/Ruben-Alvarez-Dev/MCP-tailscale.git
+cd MCP-tailscale
 npm install
 npm run build
 npm link
 ```
 
-### Opción 3: NPX (Sin instalación)
+## Configuration
+
+Create a `.env` file or set environment variables:
 
 ```bash
-npx @jartos/mcp-tailscale
-```
-
-## ⚙️ Configuración
-
-### Variables de Entorno
-
-Crea un archivo `.env` o configura las variables de entorno:
-
-```bash
-# OBLIGATORIO
+# Required
 TAILSCALE_API_KEY=tskey-api-xxxxxxxxxxxxx
 TAILSCALE_TAILNET=your-email@example.com
 
-# OPCIONAL
+# Optional
 TAILSCALE_API_URL=https://api.tailscale.com
 TAILSCALE_TIMEOUT=30000
 LOG_LEVEL=info
 ```
 
-### Obtener Credenciales
+## Usage with Claude Desktop
 
-1. Ve a [Tailscale Admin Console](https://login.tailscale.com/admin/settings/keys)
-2. Crea una nueva API Key
-3. Copia el `TAILSCALE_TAILNET` de tu [admin console](https://login.tailscale.com/admin/settings/general)
-
-## 🔧 Herramientas Disponibles
-
-### 📱 Dispositivos
-
-| Herramienta | Descripción |
-|-------------|-------------|
-| `tailscale_list_devices` | Listar todos los dispositivos de la red |
-| `tailscale_get_device` | Obtener detalles de un dispositivo específico |
-| `tailscale_authorize_device` | Autorizar un dispositivo pendiente |
-| `tailscale_delete_device` | Eliminar un dispositivo de la red |
-| `tailscale_set_device_tags` | Asignar tags a un dispositivo |
-
-### 🔑 API Keys
-
-| Herramienta | Descripción |
-|-------------|-------------|
-| `tailscale_list_keys` | Listar todas las API keys |
-| `tailscale_create_key` | Crear una nueva API key |
-| `tailscale_delete_key` | Eliminar una API key |
-
-### 🌐 DNS
-
-| Herramienta | Descripción |
-|-------------|-------------|
-| `tailscale_get_dns_nameservers` | Obtener Nameservers configurados |
-| `tailscale_set_dns_nameservers` | Configurar Nameservers |
-| `tailscale_get_dns_preferences` | Obtener preferencias DNS |
-| `tailscale_set_dns_preferences` | Configurar preferencias DNS |
-| `tailscale_get_search_paths` | Obtener Search Paths |
-| `tailscale_set_search_paths` | Configurar Search Paths |
-
-### 🛡️ ACLs
-
-| Herramienta | Descripción |
-|-------------|-------------|
-| `tailscale_get_acl` | Obtener política ACL actual |
-| `tailscale_set_acl` | Actualizar política ACL |
-| `tailscale_validate_acl` | Validar política ACL |
-
-### 🚦 Routes & Exit Nodes
-
-| Herramienta | Descripción |
-|-------------|-------------|
-| `tailscale_list_routes` | Listar rutas de un dispositivo |
-| `tailscale_set_routes` | Configurar rutas anunciadas |
-| `tailscale_set_exit_node` | Configurar dispositivo como Exit Node |
-
-### 👥 Users & Tailnet
-
-| Herramienta | Descripción |
-|-------------|-------------|
-| `tailscale_get_tailnet` | Obtener información del Tailnet |
-| `tailscale_get_user` | Obtener información de usuario |
-| `tailscale_list_users` | Listar usuarios del Tailnet |
-
-## 🖥️ Uso con Claude Desktop
-
-Añade a tu archivo de configuración de Claude Desktop:
+Add to your Claude Desktop config:
 
 **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "tailscale": {
       "command": "npx",
-      "args": ["-y", "@jartos/mcp-tailscale"],
+      "args": ["mcp-tailscale"],
       "env": {
         "TAILSCALE_API_KEY": "tskey-api-xxxxxxxxxxxxx",
         "TAILSCALE_TAILNET": "your-email@example.com"
@@ -163,167 +84,127 @@ Añade a tu archivo de configuración de Claude Desktop:
 }
 ```
 
-### Con instalación global
+## Usage with Goose
 
-```json
-{
-  "mcpServers": {
-    "tailscale": {
-      "command": "mcp-tailscale",
-      "env": {
-        "TAILSCALE_API_KEY": "tskey-api-xxxxxxxxxxxxx",
-        "TAILSCALE_TAILNET": "your-email@example.com"
-      }
-    }
-  }
-}
-```
-
-## 🪿 Uso con Goose
-
-Añade a tu configuración de Goose (`~/.config/goose/config.yaml`):
+Add to `~/.config/goose/config.yaml`:
 
 ```yaml
 extensions:
   mcp-tailscale:
-    command: npx
+    enabled: true
+    type: stdio
+    name: mcp-tailscale
+    description: Tailscale MCP Server - Network management (25 tools)
+    cmd: npx
     args:
-      - "-y"
-      - "@jartos/mcp-tailscale"
+      - mcp-tailscale
     env:
       TAILSCALE_API_KEY: tskey-api-xxxxxxxxxxxxx
       TAILSCALE_TAILNET: your-email@example.com
+    timeout: 60
 ```
 
-O con el CLI de Goose:
+## Available Tools
+
+### Devices (5 tools)
+| Tool | Description |
+|------|-------------|
+| `tailscale_list_devices` | List all devices in tailnet |
+| `tailscale_get_device` | Get device details by ID |
+| `tailscale_authorize_device` | Authorize/deauthorize device |
+| `tailscale_delete_device` | Delete device from network |
+| `tailscale_set_device_tags` | Set ACL tags on device |
+
+### API Keys (3 tools)
+| Tool | Description |
+|------|-------------|
+| `tailscale_list_keys` | List all API keys |
+| `tailscale_create_key` | Create new API key |
+| `tailscale_delete_key` | Delete API key |
+
+### DNS (6 tools)
+| Tool | Description |
+|------|-------------|
+| `tailscale_get_dns_nameservers` | Get configured nameservers |
+| `tailscale_set_dns_nameservers` | Set custom nameservers |
+| `tailscale_get_dns_preferences` | Get MagicDNS status |
+| `tailscale_set_dns_preferences` | Enable/disable MagicDNS |
+| `tailscale_get_search_paths` | Get DNS search paths |
+| `tailscale_set_search_paths` | Set search domains |
+
+### ACLs (3 tools)
+| Tool | Description |
+|------|-------------|
+| `tailscale_get_acl` | Get current ACL policy |
+| `tailscale_set_acl` | Update ACL policy |
+| `tailscale_validate_acl` | Validate ACL without applying |
+
+### Routes & Exit Nodes (3 tools)
+| Tool | Description |
+|------|-------------|
+| `tailscale_list_routes` | List device routes |
+| `tailscale_set_routes` | Enable subnet routes |
+| `tailscale_set_exit_node` | Configure exit node |
+
+### Users & Tailnet (5 tools)
+| Tool | Description |
+|------|-------------|
+| `tailscale_list_users` | List all users |
+| `tailscale_get_user` | Get user details |
+| `tailscale_delete_user` | Remove user |
+| `tailscale_get_tailnet` | Get tailnet info |
+| `tailscale_get_tailnet_settings` | Get tailnet settings |
+
+## Documentation
+
+- [API Reference](./docs/API.md) - Complete tool documentation
+- [Examples](./docs/EXAMPLES.md) - Usage examples
+- [Installation Guide](./docs/INSTALLATION.md) - Detailed setup
+
+## Development
 
 ```bash
-goose extension add mcp-tailscale --command "npx -y @jartos/mcp-tailscale" \
-  --env TAILSCALE_API_KEY=tskey-api-xxxxxxxxxxxxx \
-  --env TAILSCALE_TAILNET=your-email@example.com
+npm install     # Install dependencies
+npm run build   # Compile TypeScript
+npm run dev     # Development mode
+npm test        # Run tests
+npm run lint    # Lint code
 ```
 
-## 📚 Uso Programático
-
-```typescript
-import { TailscaleMCPServer } from '@jartos/mcp-tailscale';
-
-const server = new TailscaleMCPServer({
-  apiKey: 'tskey-api-xxxxxxxxxxxxx',
-  tailnet: 'your-email@example.com',
-});
-
-// Iniciar el servidor
-await server.start();
-```
-
-### Cliente Directo (sin MCP)
-
-```typescript
-import { TailscaleClient } from '@jartos/mcp-tailscale';
-
-const client = new TailscaleClient({
-  apiKey: 'tskey-api-xxxxxxxxxxxxx',
-  tailnet: 'your-email@example.com',
-});
-
-// Listar dispositivos
-const devices = await client.devices.list();
-
-// Autorizar dispositivo
-await client.devices.authorize('device-id');
-
-// Configurar DNS
-await client.dns.setNameservers(['1.1.1.1', '8.8.8.8']);
-```
-
-## 🛠️ Desarrollo
-
-```bash
-# Clonar repositorio
-git clone https://github.com/jartos/mcp-tailscale.git
-cd mcp-tailscale
-
-# Instalar dependencias
-npm install
-
-# Desarrollo con hot reload
-npm run dev
-
-# Compilar
-npm run build
-
-# Ejecutar tests
-npm test
-
-# Linting
-npm run lint
-
-# Limpiar build
-npm run clean
-```
-
-### Estructura del Proyecto
+## Project Structure
 
 ```
 MCP-tailscale/
 ├── src/
-│   ├── index.ts           # Entrada principal del servidor MCP
-│   ├── client.ts          # Cliente API de Tailscale
-│   ├── tools/             # Definición de herramientas MCP
-│   │   ├── devices.ts     # Gestión de dispositivos
-│   │   ├── keys.ts        # Gestión de API keys
-│   │   ├── dns.ts         # Configuración DNS
-│   │   ├── acl.ts         # Políticas ACL
-│   │   ├── routes.ts      # Rutas y Exit Nodes
-│   │   └── users.ts       # Usuarios y Tailnet
-│   ├── types.ts           # Tipos TypeScript
-│   └── utils.ts           # Utilidades
-├── docs/
-│   ├── API.md             # Documentación de la API
-│   └── EXAMPLES.md        # Ejemplos de uso
-├── tests/                 # Tests unitarios
-├── dist/                  # Código compilado
+│   ├── index.ts          # MCP server entry point
+│   ├── client.ts         # Tailscale API client
+│   └── tools/            # Tool implementations
+│       ├── devices.ts    # Device tools
+│       ├── keys.ts       # API key tools
+│       ├── dns.ts        # DNS tools
+│       ├── acl.ts        # ACL tools
+│       ├── routes.ts     # Route tools
+│       └── users.ts      # User tools
+├── docs/                 # Documentation
+├── dist/                 # Compiled code
 ├── package.json
-├── tsconfig.json
 └── README.md
 ```
 
-## 📖 API Reference
+## License
 
-Ver [docs/API.md](./docs/API.md) para documentación completa de la API.
+MIT License - See [LICENSE](LICENSE) for details.
 
-### Ejemplos de Uso
-
-Ver [docs/EXAMPLES.md](./docs/EXAMPLES.md) para ejemplos detallados.
-
-## 🤝 Contribuir
-
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -m 'feat: añade nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
-## 📝 Changelog
-
-Ver [CHANGELOG.md](./CHANGELOG.md) para historial de cambios.
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT - ver [LICENSE](LICENSE) para más detalles.
-
-## 🔗 Enlaces
+## Links
 
 - [Tailscale API Documentation](https://tailscale.com/api)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [Claude Desktop](https://claude.ai)
-- [Goose](https://github.com/block/goose)
 
-## ⚠️ Aviso Legal
+## Disclaimer
 
-Este proyecto no está afiliado, asociado, autorizado, respaldado por, o de ninguna manera oficialmente conectado con Tailscale Inc., o cualquiera de sus subsidiarias o afiliadas.
+This project is not affiliated with Tailscale Inc.
 
 ---
 
-Hecho con ❤️ por el equipo de JartOS
+Made by [Ruben-Alvarez-Dev](https://github.com/Ruben-Alvarez-Dev)

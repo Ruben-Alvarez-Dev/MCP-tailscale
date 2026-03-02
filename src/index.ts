@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * Tailscale MCP Server - Main Entry Point
  * Model Context Protocol Server for Tailscale API
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
  * @module mcp-tailscale
- * @author JartOS Team
+ * @author Ruben-Alvarez-Dev
  * @version 1.0.0
  */
 
@@ -33,10 +32,7 @@ import { TailscaleClient } from './client.js';
 // Load environment variables
 config();
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Configuration Schema
-// ─────────────────────────────────────────────────────────────────────────────
-
 const ConfigSchema = z.object({
   TAILSCALE_API_KEY: z.string().min(1, 'TAILSCALE_API_KEY is required'),
   TAILSCALE_TAILNET: z.string().min(1, 'TAILSCALE_TAILNET is required'),
@@ -47,31 +43,25 @@ const ConfigSchema = z.object({
 
 type Config = z.infer<typeof ConfigSchema>;
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Validate Configuration
-// ─────────────────────────────────────────────────────────────────────────────
-
 function getConfig(): Config {
   const result = ConfigSchema.safeParse(process.env);
   
   if (!result.success) {
-    console.error('❌ Configuration Error:');
+    console.error('[ERROR] Configuration Error:');
     result.error.issues.forEach((issue) => {
-      console.error(`   - ${issue.path.join('.')}: ${issue.message}`);
+      console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
     });
-    console.error('\n📝 Please set the required environment variables:');
-    console.error('   TAILSCALE_API_KEY - Get from: https://login.tailscale.com/admin/settings/keys');
-    console.error('   TAILSCALE_TAILNET - Your tailnet name (e.g., user@example.com)');
+    console.error('\n[INFO] Please set the required environment variables:');
+    console.error('  TAILSCALE_API_KEY - Get from: https://login.tailscale.com/admin/settings/keys');
+    console.error('  TAILSCALE_TAILNET - Your tailnet name (e.g., user@example.com)');
     process.exit(1);
   }
   
   return result.data;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // MCP Server Setup
-// ─────────────────────────────────────────────────────────────────────────────
-
 export class TailscaleMCPServer {
   private server: Server;
   private client: TailscaleClient;
@@ -91,7 +81,7 @@ export class TailscaleMCPServer {
     // Initialize MCP server
     this.server = new Server(
       {
-        name: '@jartos/mcp-tailscale',
+        name: 'mcp-tailscale',
         version: '1.0.0',
       },
       {
@@ -176,8 +166,8 @@ export class TailscaleMCPServer {
     await this.server.connect(transport);
     
     if (this.config.LOG_LEVEL === 'debug') {
-      console.error('✅ Tailscale MCP Server started');
-      console.error(`   Tailnet: ${this.config.TAILSCALE_TAILNET}`);
+      console.error('[DEBUG] Tailscale MCP Server started');
+      console.error(`[DEBUG] Tailnet: ${this.config.TAILSCALE_TAILNET}`);
     }
   }
 
@@ -186,10 +176,7 @@ export class TailscaleMCPServer {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Main Entry Point
-// ─────────────────────────────────────────────────────────────────────────────
-
 async function main(): Promise<void> {
   const server = new TailscaleMCPServer();
   
@@ -209,6 +196,6 @@ async function main(): Promise<void> {
 
 // Run if called directly
 main().catch((error) => {
-  console.error('Fatal error:', error);
+  console.error('[FATAL] Server error:', error);
   process.exit(1);
 });

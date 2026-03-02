@@ -1,17 +1,15 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
  * Key Tools - MCP Tools for Tailscale API Key Management
- * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * @module mcp-tailscale/tools/keys
+ * @author Ruben-Alvarez-Dev
  */
 
 import { Tool, McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { TailscaleClient } from '../client.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Definitions
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const keyTools: Tool[] = [
   {
     name: 'tailscale_list_keys',
@@ -77,10 +75,7 @@ export const keyTools: Tool[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Input Schemas for Validation
-// ─────────────────────────────────────────────────────────────────────────────
-
 const CreateKeySchema = z.object({
   description: z.string().min(1),
   expirySeconds: z.number().positive().optional().default(7776000),
@@ -94,10 +89,7 @@ const DeleteKeySchema = z.object({
   keyId: z.string().min(1),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Tool Handler
-// ─────────────────────────────────────────────────────────────────────────────
-
 export async function handleKeyTool(
   name: string,
   args: unknown,
@@ -152,7 +144,7 @@ export async function handleKeyTool(
               success: true,
               id: result.id,
               key: result.key,
-              message: '⚠️ Save this key now! It will not be shown again.',
+              message: 'WARNING: Save this key now! It will not be shown again.',
             }, null, 2),
           },
         ],
