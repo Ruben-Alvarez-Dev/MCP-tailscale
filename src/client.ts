@@ -309,8 +309,8 @@ export class TailscaleClient {
   // USERS & TAILNET API
   users = {
     list: async (): Promise<User[]> => {
-      const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/members`);
-      return response.data.members || [];
+      const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}/users`);
+      return response.data.users || [];
     },
 
     get: async (userId: string): Promise<User> => {
