@@ -329,8 +329,16 @@ export class TailscaleClient {
 
   tailnetApi = {
     get: async (): Promise<TailnetInfo> => {
-      const response = await this.client.get(`/api/v2/tailnet/${this._tailnet}`);
-      return response.data;
+      // Note: GET /tailnet/{tailnet} returns empty body
+      // Use settings endpoint instead for actual data
+      const settings = await this.tailnetApi.getSettings();
+      return {
+        name: this._tailnet,
+        domain: '',
+        created: '',
+        expiry: '',
+        settings,
+      } as TailnetInfo;
     },
 
     getSettings: async (): Promise<Record<string, unknown>> => {

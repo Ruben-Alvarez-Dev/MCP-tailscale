@@ -115,27 +115,43 @@ export class TailscaleMCPServer {
 
       try {
         // Route to appropriate handler based on tool name prefix
-        if (name.startsWith('tailscale_device') || name.startsWith('tailscale_list_devices') || name.startsWith('tailscale_authorize') || name.startsWith('tailscale_delete_device') || name.startsWith('tailscale_set_device')) {
+        if (name.startsWith('tailscale_list_devices') || 
+            name.startsWith('tailscale_get_device') || 
+            name.startsWith('tailscale_authorize_device') || 
+            name.startsWith('tailscale_delete_device') || 
+            name.startsWith('tailscale_set_device_tags')) {
           return await handleDeviceTool(name, args, this.client);
         }
         
-        if (name.startsWith('tailscale_key') || name.startsWith('tailscale_create_key') || name.startsWith('tailscale_list_keys')) {
+        if (name.startsWith('tailscale_list_keys') || 
+            name.startsWith('tailscale_create_key') || 
+            name.startsWith('tailscale_delete_key')) {
           return await handleKeyTool(name, args, this.client);
         }
         
-        if (name.startsWith('tailscale_dns') || name.startsWith('tailscale_get_search') || name.startsWith('tailscale_set_search')) {
+        if (name.startsWith('tailscale_get_dns') || 
+            name.startsWith('tailscale_set_dns') ||
+            name.startsWith('tailscale_get_search') || 
+            name.startsWith('tailscale_set_search')) {
           return await handleDnsTool(name, args, this.client);
         }
         
-        if (name.startsWith('tailscale_acl') || name.startsWith('tailscale_validate')) {
+        if (name.startsWith('tailscale_get_acl') || 
+            name.startsWith('tailscale_set_acl') ||
+            name.startsWith('tailscale_validate_acl')) {
           return await handleAclTool(name, args, this.client);
         }
         
-        if (name.startsWith('tailscale_route') || name.startsWith('tailscale_set_exit')) {
+        if (name.startsWith('tailscale_list_routes') || 
+            name.startsWith('tailscale_set_routes') ||
+            name.startsWith('tailscale_set_exit_node')) {
           return await handleRouteTool(name, args, this.client);
         }
         
-        if (name.startsWith('tailscale_user') || name.startsWith('tailscale_tailnet') || name.startsWith('tailscale_list_users')) {
+        if (name.startsWith('tailscale_list_users') || 
+            name.startsWith('tailscale_get_user') ||
+            name.startsWith('tailscale_delete_user') ||
+            name.startsWith('tailscale_get_tailnet')) {
           return await handleUserTool(name, args, this.client);
         }
 
